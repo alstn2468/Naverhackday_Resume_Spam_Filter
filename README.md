@@ -1,2 +1,3 @@
-# Naverhackday_Resume_Spam_Filter
-📗Image OCR Spam Filter for Naver Hack Day
+## Python을 이용한 이미지 OCR 스팸 필터링
+
+📗 네이버 캠퍼스 핵데이 지원서 제출용
