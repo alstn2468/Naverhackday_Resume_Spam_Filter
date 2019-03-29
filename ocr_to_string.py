@@ -9,6 +9,13 @@ config = configparser.ConfigParser()
 config.read(os.path.dirname(os.path.realpath(__file__))
             + os.sep + 'envs' + os.sep + 'property.ini')
 
+'''이미지에서 문자열을 추출하는 함수
+fullPath   : 이미지 파일 경로
+outTxtPath : 문자열 반환 경로
+fileName   : 이미지 파일 이름
+lang       : OCR언어 설정 default는 영어
+return     : 없음
+'''
 def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
     # Image path
     image_path = Image.open(fullPath)
@@ -22,14 +29,12 @@ def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
         image_path, lang=lang, config='--psm 1 -c preserve_interword_spaces=1'
     )
 
-
     print("+++ OCT Extract Result +++")
-    print("Extract File Name :", fileName)
-    print("\n")
 
-    print(outputText)
+    print(outputText + "\n")
 
     str_to_text(textName, outputText)
+
 
 def str_to_text(textName, outputText):
     textName += ".txt"
@@ -37,20 +42,23 @@ def str_to_text(textName, outputText):
     with open(textName, "w", encoding="utf-8") as f:
         f.write(outputText)
 
+
 if __name__ == "__main__":
 
-    outTxtPath = os.path.dirname(os.path.realpath(__file__)
-                                 + config["Path"]["OcrTxtPath"])
+    outTxtPath = os.path.dirname(os.path.realpath(__file__))
+    outTxtPath += config["Path"]["OcrTxtPath"]
 
-    print(outTxtPath)
+    print("outTxtPath :", outTxtPath)
 
     for root, dirs, files in os.walk(
-        os.path.dirname(os.path.realpath(__file__)) + config["Path"]["OriImgPath"]):
+        os.path.dirname(
+            os.path.realpath(__file__)) + config["Path"]["OriImgPath"]
+    ):
 
         for fileName in files:
-            fullName = os.path.join(root, fileName)
+            fullPath = os.path.join(root, fileName)
 
             print("fileName :", fileName)
-            print("fullName :", fullName)
+            print("fullPath :", fullPath)
 
-            ocr_to_str(fullName, outTxtPath, fileName, "kor+eng")
+            ocr_to_str(fullPath, outTxtPath, fileName, "kor+eng")
