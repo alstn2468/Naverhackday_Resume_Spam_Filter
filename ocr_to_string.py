@@ -30,7 +30,9 @@ def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
     psm(페이지 세그먼트 모드) : 이미지 영역안에서 텍스트 추출 범위 모드
     '''
     outputText = image_to_string(
-        image_path, lang=lang, config='--psm 1 -c preserve_interword_spaces=1'
+        image_path,
+        lang=lang,
+        config='--psm 1 -c preserve_interword_spaces=1',
     )
 
     print("+++ OCT Extract Result +++")
@@ -93,12 +95,12 @@ if __name__ == "__main__":
                 + config["Path"]["OriImgPath"]
 
     # 텍스트파일 저장 경로
-    outTxtPath = os.path.dirname(os.path.realpath(__file__))
-    outTxtPath += config["Path"]["OcrTxtPath"]
+    outTxtPath = os.path.dirname(os.path.realpath(__file__)) \
+                + config["Path"]["OcrTxtPath"]
 
     # CSV파일 저장 경로
-    outCsvPath = os.path.dirname(os.path.realpath(__file__))
-    outCsvPath += config["Path"]["TxtCsvPath"]
+    outCsvPath = os.path.dirname(os.path.realpath(__file__)) \
+                + config["Path"]["TxtCsvPath"]
 
     # OCR 데이터 추출 작업
     for root, dirs, files in os.walk(imagePath):
