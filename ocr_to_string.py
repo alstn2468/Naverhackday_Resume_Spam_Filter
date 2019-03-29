@@ -20,6 +20,8 @@ fileName   : 이미지 파일 이름
 lang       : OCR언어 설정 default는 영어
 return     : 없음
 '''
+
+
 def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
     # 이미지 경로
     image_path = Image.open(fullPath)
@@ -47,6 +49,8 @@ textName   : 저장할 파일 이름
 outputText : 저장할 텍스트
 return     : 없음
 '''
+
+
 def str_to_text(textName, outputText):
     # 이미지 이름과 같은 이름의 텍스트 파일
     textName += ".txt"
@@ -64,6 +68,8 @@ outTxtPath : 저장된 텍스트 파일 경로
 outCsvPath : 저장할 CSV 파일 경로
 return     : 없음
 '''
+
+
 def text_to_csv(textName, csvName, outTxtPath, outCsvPath):
     # 파일의 사이즈가 0이면 미추출 파일
     if os.path.getsize(os.path.join(outTxtPath, textName)) != 0:
@@ -79,6 +85,8 @@ def text_to_csv(textName, csvName, outTxtPath, outCsvPath):
 data   : 전처리할 데이터
 return : 전처리된 데이터
 '''
+
+
 def cleanText(data):
     # 특수문자 제거
     text = re.sub('[-=,#/\?:^$.@*\"※~&%・!\\′|\(\)\[\]\<\>`\'...⟫]', '', data)
@@ -92,15 +100,15 @@ if __name__ == "__main__":
 
     # 이미지파일 경로
     imagePath = os.path.dirname(os.path.realpath(__file__)) \
-                + config["Path"]["OriImgPath"]
+        + config["Path"]["OriImgPath"]
 
     # 텍스트파일 저장 경로
     outTxtPath = os.path.dirname(os.path.realpath(__file__)) \
-                + config["Path"]["OcrTxtPath"]
+        + config["Path"]["OcrTxtPath"]
 
     # CSV파일 저장 경로
     outCsvPath = os.path.dirname(os.path.realpath(__file__)) \
-                + config["Path"]["TxtCsvPath"]
+        + config["Path"]["TxtCsvPath"]
 
     # OCR 데이터 추출 작업
     for root, dirs, files in os.walk(imagePath):
