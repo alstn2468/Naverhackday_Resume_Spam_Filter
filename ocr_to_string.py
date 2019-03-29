@@ -17,7 +17,7 @@ lang       : OCR언어 설정 default는 영어
 return     : 없음
 '''
 def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
-    # Image path
+    # 이미지 경로
     image_path = Image.open(fullPath)
     textName = os.path.join(outTxtPath, fileName.split('.')[0])
 
@@ -35,9 +35,15 @@ def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
 
     str_to_text(textName, outputText)
 
-
+'''이미지에서 추출한 문자열을 파일로 저장하는 함수
+textName   : 저장할 파일 이름
+outputText : 저장할 텍스트
+'''
 def str_to_text(textName, outputText):
+    # 이미지 이름과 같은 이름의 텍스트 파일
     textName += ".txt"
+
+    print("Output Text File Path :", textName, "\n")
 
     with open(textName, "w", encoding="utf-8") as f:
         f.write(outputText)
@@ -58,7 +64,7 @@ if __name__ == "__main__":
         for fileName in files:
             fullPath = os.path.join(root, fileName)
 
-            print("fileName :", fileName)
-            print("fullPath :", fullPath)
+            print("Input Image File Name :", fileName)
+            print("Input Image Path :", fullPath, "\n")
 
             ocr_to_str(fullPath, outTxtPath, fileName, "kor+eng")
