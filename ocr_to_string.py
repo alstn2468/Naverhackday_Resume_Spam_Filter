@@ -32,7 +32,9 @@ def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
     str_to_text(textName, outputText)
 
 def str_to_text(textName, outputText):
-    with open(textName + ".txt", "w", encoding="utf-8") as f:
+    textName += ".txt"
+
+    with open(textName, "w", encoding="utf-8") as f:
         f.write(outputText)
 
 if __name__ == "__main__":
@@ -48,6 +50,7 @@ if __name__ == "__main__":
         for fileName in files:
             fullName = os.path.join(root, fileName)
 
-            print(fileName, fullName)
+            print("fileName :", fileName)
+            print("fullName :", fullName)
 
             ocr_to_str(fullName, outTxtPath, fileName, "kor+eng")
