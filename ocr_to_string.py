@@ -10,8 +10,12 @@ import re
 # Config parser 초기화
 config = configparser.ConfigParser()
 # Config File 읽기
-config.read(os.path.dirname(os.path.realpath(__file__))
-            + os.sep + 'envs' + os.sep + 'property.ini')
+config.read(os.path.dirname(os.path.realpath(__file__)) +
+            os.sep +
+            'envs' +
+            os.sep +
+            'property.ini'
+            )
 
 '''이미지에서 문자열을 추출하는 함수
 fullPath   : 이미지 파일 경로
@@ -73,9 +77,13 @@ return     : 없음
 def text_to_csv(textName, csvName, outTxtPath, outCsvPath):
     # 파일의 사이즈가 0이면 미추출 파일
     if os.path.getsize(os.path.join(outTxtPath, textName)) != 0:
-        with open(os.path.join(outTxtPath, textName), "r", encoding="utf-8") as r:
-            with open(os.path.join(outCsvPath, config["FileName"]["CsvFileName"]),
-                      "a", encoding="utf-8", newline='') as w:
+        with open(
+            os.path.join(outTxtPath, textName), "r", encoding="utf-8"
+        ) as r:
+            with open(
+                os.path.join(outCsvPath, config["FileName"]["CsvFileName"]),
+                "a", encoding="utf-8", newline=''
+            ) as w:
                 writer = csv.writer(w, delimiter=',')
                 text = cleanText(r.read())
                 writer.writerow([csvName, text])
