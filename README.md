@@ -16,6 +16,7 @@ Department of<br/> Computer Software Engineering
 ### Dependency
 1. pillow
 2. pytesseract
+3. pymongo
 
 ### tesseract
 
