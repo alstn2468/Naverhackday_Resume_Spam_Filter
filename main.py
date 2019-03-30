@@ -115,12 +115,8 @@ return : 없음
 
 
 def init_db():
-    mongoDatabaseUrl = "mongodb+srv://alstn2468_:" \
-        + urllib.parse.quote("alstn082918@") \
-        + "@spamfilter-nuzgn.azure.mongodb.net/test?retryWrites=true"
-
     # MongoDB 접속 초기화
-    client = MongoClient(mongoDatabaseUrl)
+    client = MongoClient(config["System"]["DataBaseUrl"])
     # Database 획득
     db = client[config["System"]["DatabaseName"]]
 
