@@ -2,6 +2,7 @@ from PIL import Image
 from pytesseract import *
 from pymongo import MongoClient
 import configparser
+import urllib
 import os
 import sys
 import csv
@@ -87,6 +88,10 @@ def text_to_csv(textName, csvName, outTxtPath, outCsvPath):
                 writer = csv.writer(w, delimiter=',')
                 text = cleanText(r.read())
                 writer.writerow([csvName, text])
+                spamList.append({
+                    "category": csvName,
+                    "contents": text,
+                })
 
 
 '''OCR한 텍스트를 전처리하는 함수
@@ -104,7 +109,34 @@ def cleanText(data):
     return text
 
 
+'''MongoDB 초기화 함수
+return : 없음
+'''
+
+
+def init_db():
+    mongoDatabaseUrl = "mongodb+srv://alstn2468_:" \
+        + urllib.parse.quote("alstn082918@") \
+        + "@spamfilter-nuzgn.azure.mongodb.net/test?retryWrites=true"
+
+    # MongoDB 접속 초기화
+    client = MongoClient(mongoDatabaseUrl)
+    # Database 획득
+    db = client[config["System"]["DatabaseName"]]
+
+    # 콜렉션(Documents) 흭득 및 전역 변수 선언
+    global nplKo
+    nplKo = db[config["System"]["CollectionName"]]
+
+    # Database 저장 리스트 전역 변수 선언
+    global spamList
+    spamList = []
+
+
 if __name__ == "__main__":
+
+    # MongoDB 초기화
+    init_db()
 
     # 이미지파일 경로
     imagePath = os.path.dirname(os.path.realpath(__file__)) \
@@ -135,5 +167,8 @@ if __name__ == "__main__":
                     .strip()
 
         text_to_csv(fileName, csvName, outTxtPath, outCsvPath)
+
+    # 추출 후 정제된 모든 데이터를 DB에 저장
+    nplKo.insert_many(spamList)
 
     print("OCR Image --> Text --> CSV Convert Complete")

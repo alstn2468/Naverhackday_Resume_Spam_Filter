@@ -17,6 +17,7 @@ Department of<br/> Computer Software Engineering
 1. pillow
 2. pytesseract
 3. pymongo
+4. dnspython
 
 ### tesseract
 
