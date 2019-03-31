@@ -1,6 +1,7 @@
 from PIL import Image
 from pytesseract import *
 from pymongo import MongoClient
+from spam_filter_engine import *
 import configparser
 import urllib
 import os
@@ -18,16 +19,17 @@ config.read(os.path.dirname(os.path.realpath(__file__)) +
             'property.ini'
             )
 
-'''이미지에서 문자열을 추출하는 함수
-fullPath   : 이미지 파일 경로
-outTxtPath : 문자열 반환 경로
-fileName   : 이미지 파일 이름
-lang       : OCR언어 설정 default는 영어
-return     : 없음
-'''
-
 
 def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
+    '''이미지에서 문자열을 추출하는 함수
+    fullPath   : 이미지 파일 경로
+    outTxtPath : 문자열 반환 경로
+    fileName   : 이미지 파일 이름
+    lang       : OCR언어 설정 default는 영어
+
+    return     : 없음
+    '''
+
     # 이미지 경로
     image_path = Image.open(fullPath)
     textName = os.path.join(outTxtPath, fileName.split('.')[0])
@@ -49,14 +51,14 @@ def ocr_to_str(fullPath, outTxtPath, fileName, lang="eng"):
     str_to_text(textName, outputText)
 
 
-'''이미지에서 추출한 문자열을 파일로 저장하는 함수
-textName   : 저장할 파일 이름
-outputText : 저장할 텍스트
-return     : 없음
-'''
-
-
 def str_to_text(textName, outputText):
+    '''이미지에서 추출한 문자열을 파일로 저장하는 함수
+    textName   : 저장할 파일 이름
+    outputText : 저장할 텍스트
+
+    return     : 없음
+    '''
+
     # 이미지 이름과 같은 이름의 텍스트 파일
     textName += ".txt"
 
@@ -66,16 +68,16 @@ def str_to_text(textName, outputText):
         f.write(outputText)
 
 
-'''텍스트파일을 CSV파일로 만들어주는 함수
-textName   : 저장된 텍스트 파일 이름
-csvName    : 저장할 CSV 파일 이름
-outTxtPath : 저장된 텍스트 파일 경로
-outCsvPath : 저장할 CSV 파일 경로
-return     : 없음
-'''
-
-
 def text_to_csv(textName, csvName, outTxtPath, outCsvPath):
+    '''텍스트파일을 CSV파일로 만들어주는 함수
+    textName   : 저장된 텍스트 파일 이름
+    csvName    : 저장할 CSV 파일 이름
+    outTxtPath : 저장된 텍스트 파일 경로
+    outCsvPath : 저장할 CSV 파일 경로
+
+    return     : 없음
+    '''
+
     # 파일의 사이즈가 0이면 미추출 파일
     if os.path.getsize(os.path.join(outTxtPath, textName)) != 0:
         with open(
@@ -92,15 +94,16 @@ def text_to_csv(textName, csvName, outTxtPath, outCsvPath):
                     "category": csvName,
                     "contents": text,
                 })
-
-
-'''OCR한 텍스트를 전처리하는 함수
-data   : 전처리할 데이터
-return : 전처리된 데이터
-'''
+                nlpKoSpamStart(text, config["System"]["OperMode"], outCsvPath + "/result.csv")
 
 
 def cleanText(data):
+    '''OCR한 텍스트를 전처리하는 함수
+    data   : 전처리할 데이터
+
+    return : 전처리된 데이터
+    '''
+
     # 특수문자 제거
     text = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', data)
     # 줄바꿈 제거
@@ -109,12 +112,11 @@ def cleanText(data):
     return text
 
 
-'''MongoDB 초기화 함수
-return : 없음
-'''
-
-
 def init_db():
+    '''MongoDB 초기화 함수
+    return : 없음
+    '''
+
     # MongoDB 접속 초기화
     client = MongoClient(config["System"]["DataBaseUrl"])
     # Database 획득
