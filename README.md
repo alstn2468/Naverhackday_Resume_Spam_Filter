@@ -14,4 +14,6 @@ Department of<br/> Computer Software Engineering
 <br/>
 
 **학습용 이미지 모으는 중**<br/>
-**코드 에러 수정 중**
+**코드 에러 수정 중**<br/>
+
+## 아직 정상 작동하지 않습니다 ㅜㅜ
