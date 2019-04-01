@@ -175,7 +175,7 @@ def p_spam_given_word(word_prob):
     return prob_if_spam / (prob_if_spam + prob_if_nonSpam)
 
 
-def train_and_test_model(data, sw, predictMess=''):
+def train_and_test_model(data, sw, predictMessage=''):
     if sw == '0':
         random.seed(0)
         train_data, test_data = train_test_split(data, test_size=0.25)
@@ -199,7 +199,7 @@ def train_and_test_model(data, sw, predictMess=''):
         train_data, test_data = train_test_split(data, test_size=0)
         classifier = NaiveBayesClassifier()
         classifier.train(train_data)
-        spam_probability = classifier.classify(predictMess)
+        spam_probability = classifier.classify(predictMessage)
 
         print(spam_probability)
         print(spam_probability[0])
@@ -229,13 +229,14 @@ def train_and_test_model(data, sw, predictMess=''):
 
 
 def nlpKoSpamStart(predictMessage, mode, trainCsvPath):
-    '''
-    0 : modeling
-    1 : prediction
+    '''학습된 데이터를 읽어와 결과를 예측하는 함수
+    predictMessage : 예측 할 텍스트
+    mode           : 0 -> modeling | 1 -> prediction
+    trainCsvPath   : 학습한 CSV파일 경로
     '''
     trainCsvPath += "/train_result.csv"
 
     data = pd.read_csv(trainCsvPath)
     trainData = data.loc[:, ["is_spam", "message"]]
 
-    train_and_test_model(trainData, mode, predictMess)
+    train_and_test_model(trainData, mode, predictMessage)
