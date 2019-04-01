@@ -1,5 +1,5 @@
 from __future__ import division
-from collections import Counter, defaultdict
+from collections import defaultdict
 from sklearn.model_selection import train_test_split
 from konlpy.tag import Twitter
 import pandas as pd
