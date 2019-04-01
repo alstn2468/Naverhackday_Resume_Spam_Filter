@@ -3,7 +3,6 @@ from pytesseract import *
 from pymongo import MongoClient
 from spam_filter_engine import *
 import configparser
-import urllib
 import os
 import sys
 import csv
