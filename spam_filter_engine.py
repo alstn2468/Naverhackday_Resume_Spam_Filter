@@ -227,11 +227,14 @@ def train_and_test_model(data, sw, predictMess=''):
             print("스팸 메세지가 아닙니다. ", spam_probability[0])
 
 
-def nlpKoSpamStart(predictMessage, mode, csvPath):
+def nlpKoSpamStart(predictMessage, mode, trainCsvPath):
     '''
     0 : modeling
     1 : prediction
     '''
-    data = pd.read_csv(csvPath)
+    trainCsvPath += "/train_result.csv"
+
+    data = pd.read_csv(trainCsvPath)
     trainData = data.loc[:, ["is_spam", "message"]]
+
     train_and_test_model(trainData, mode, predictMess)
