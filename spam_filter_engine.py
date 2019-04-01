@@ -98,6 +98,7 @@ def spam_probability(word_probs, message):
             log_prob_if_internetSpam += math.log(prob_if_internetSpam)
             log_prob_if_loanSpam += math.log(prob_if_loanSpam)
             log_prob_if_nonSpam += math.log(prob_if_nonSpam)
+
         else:
             log_prob_if_adultSpam += math.log(1.0 - prob_if_adultSpam)
             log_prob_if_etcSpam += math.log(1.0 - prob_if_etcSpam)
