@@ -94,13 +94,17 @@ def text_to_csv(textName, csvName, outTxtPath, outCsvPath):
                     "contents": text,
                 })
 
-                print(spamList)
+                # print(spamList)
 
                 # 학습 데이터 저장 경로
                 trainCsvPath = os.path.dirname(os.path.realpath(__file__)) \
                     + config["Path"]["TrainCsvPath"]
 
-                # nlpKoSpamStart(text, config["System"]["OperMode"], trainCsvPath)
+                nlpKoSpamStart(text, config["System"]["OperMode"], trainCsvPath)
+
+
+def save_train_data():
+    pass
 
 
 def cleanText(data):
