@@ -66,11 +66,10 @@ def word_probabilities(counts,
             for w, (nonSpam, adultSpam, etcSpam, gamblingSpam, internetSpam, loanSpam) in counts.items()]
 
 
-def save_train_data(trainCsvPath):
+def save_train_data(trainCsvPath, trainData):
     with open(trainCsvPath) as w:
         writer = csv.writer(w, delimiter=',')
-
-    pass
+        writer.writerow(trainData)
 
 
 def spam_probability(word_probs, message):
@@ -182,7 +181,7 @@ def p_spam_given_word(word_prob):
     return prob_if_spam / (prob_if_spam + prob_if_nonSpam)
 
 
-def train_and_test_model(data, sw, predictMessage=''):
+def train_and_test_model(data, sw, trainCsvPath, predictMessage=''):
     if sw == '0':
         random.seed(0)
         train_data, test_data = train_test_split(data, test_size=0.25)
@@ -198,6 +197,8 @@ def train_and_test_model(data, sw, predictMessage=''):
             (is_spam, message, classifier.classify(message))
             for is_spam, message in test_data_arr
         ]
+
+        save_train_data(trainCsvPath, classified)
 
         print(classified)
 
@@ -246,4 +247,4 @@ def nlpKoSpamStart(predictMessage, mode, trainCsvPath):
     data = pd.read_csv(trainCsvPath)
     trainData = data.loc[:, ["is_spam", "message"]]
 
-    train_and_test_model(trainData, mode, predictMessage)
+    train_and_test_model(trainData, mode, trainCsvPath, predictMessage)
