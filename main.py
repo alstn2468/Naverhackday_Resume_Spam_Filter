@@ -103,13 +103,6 @@ def text_to_csv(textName, csvName, outTxtPath, outCsvPath):
                 nlpKoSpamStart(text, config["System"]["OperMode"], trainCsvPath)
 
 
-def save_train_data(trainCsvPath):
-    with open(trainCsvPath) as w:
-        writer = csv.writer(w, delimiter='.')
-        
-    pass
-
-
 def cleanText(data):
     '''OCR한 텍스트를 전처리하는 함수
     data   : 전처리할 데이터

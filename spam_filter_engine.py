@@ -66,6 +66,13 @@ def word_probabilities(counts,
             for w, (nonSpam, adultSpam, etcSpam, gamblingSpam, internetSpam, loanSpam) in counts.items()]
 
 
+def save_train_data(trainCsvPath):
+    with open(trainCsvPath) as w:
+        writer = csv.writer(w, delimiter=',')
+
+    pass
+
+
 def spam_probability(word_probs, message):
     '''스팸 확률을 계산하는 함수
     1 : adult
