@@ -176,7 +176,7 @@ class NaiveBayesClassifier:
 
 
 def p_spam_given_word(word_prob):
-    '''
+    '''스팸 단어일 확률을 계산하는 함수
 
     '''
     word, prob_if_spam, prob_if_nonSpam = word_prob
